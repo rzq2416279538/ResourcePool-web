@@ -44,6 +44,7 @@
       <el-table-column label="沟通记录" align="center" width="180">
         <template #default="scope">
           <span style="color: blue;font-weight: 900;cursor: pointer;text-decoration:underline;" @click="openDrawer(scope.row)">沟通记录</span>
+          <span v-if="scope.row.connectCount > 0">:{{scope.row.connectCount}}次</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
