@@ -9,6 +9,14 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="沟通内容" prop="connectContent">
+        <el-input
+            v-model="queryParams.connectContent"
+            placeholder="请输入沟通内容"
+            clearable
+            @keyup.enter="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="创建时间" style="width: 308px;">
         <el-date-picker
             v-model="dateRange"
@@ -32,7 +40,13 @@
       <el-table-column label="省份-城市" align="center" prop="addr" />
       <el-table-column label="客户需求" align="center" prop="customerDemand" />
       <el-table-column label="客户来源" align="center" prop="sources" />
-      <el-table-column label="备注" align="center" prop="notes" />
+<!--      <el-table-column label="备注" align="center" prop="notes" />-->
+      <el-table-column label="备注" align="notes">
+      <template #default="scope">
+        <div style="color: #409eff">备注：{{scope.row.notes}}</div>
+        <div v-if="scope.row.connectContent" style="color: red">{{scope.row.connectContent}}</div>
+      </template>
+      </el-table-column>
       <el-table-column label="用户名称" align="center" prop="userName" />
       <el-table-column label="创建时间" align="center" prop="createTime" />
       <el-table-column label="是否沟通" align="center" width="180">
@@ -142,6 +156,7 @@ const data = reactive({
     userId: null,
     userName: null,
     isRecovery: null,
+    connectContent:null
   },
   rules: {
     translateId: [

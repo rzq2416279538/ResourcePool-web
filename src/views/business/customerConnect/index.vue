@@ -2,36 +2,39 @@
   <div class="app-container">
 
     <div class="box" style="display: flex;justify-content: space-between;">
-      <div class="left" style="display: flex;">
-        <div style="color: #1ab394;font-weight: 700;margin-bottom: 10px;">客户名称：{{user.customerName}}</div>
-        <div style="color: #1ab394;font-weight: 700;margin-bottom: 10px;margin-left: 20px;">客户电话：{{user.customerPhone}}</div>
+      <div class="left">
+        <div style="color: #1ab394;font-weight: 700;margin-bottom: 10px;">客户名称：{{ user.customerName }}</div>
+        <div style="color: #1ab394;font-weight: 700;margin-bottom: 10px;">客户电话：{{ user.customerPhone }}</div>
       </div>
       <div class="right">
-        <el-button
-            type="primary"
-            plain
-            @click="openUrl('http://61.243.11.146:88/Web/dataapp/per_dataResult.aspx')"
-        >二建注册查询
-        </el-button>
-        <el-button
-            type="primary"
-            plain
-            @click="openUrl('https://zlaq.mohurd.gov.cn/fwmh/bjxcjgl/fwmh/pages/construction_safety/qyaqscglry/qyaqscglry.html')"
-        >三类人员查询
-        </el-button>
-        <el-button
-            type="primary"
-            plain
-            @click="openUrl('https://smrz.zwfw.guizhou.gov.cn/sso/login?utype=1&client_id=5GLA5D6XD&goto=165')"
-        >二建系统登陆
-        </el-button>
-        <el-button
-            type="primary"
-            plain
-            @click="openUrl('http://61.243.11.50:8088/GZZHXT/Index.html')"
-        >三类人员登陆系统
-        </el-button>
-
+        <div>
+          <el-button
+              type="primary"
+              plain
+              @click="openUrl('http://61.243.11.146:88/Web/dataapp/per_dataResult.aspx')"
+          >二建注册查询
+          </el-button>
+          <el-button
+              type="primary"
+              plain
+              @click="openUrl('https://zlaq.mohurd.gov.cn/fwmh/bjxcjgl/fwmh/pages/construction_safety/qyaqscglry/qyaqscglry.html')"
+          >三类人员查询
+          </el-button>
+        </div>
+        <div style="margin-top: 10px">
+          <el-button
+              type="primary"
+              plain
+              @click="openUrl('https://smrz.zwfw.guizhou.gov.cn/sso/login?utype=1&client_id=5GLA5D6XD&goto=165')"
+          >二建系统登陆
+          </el-button>
+          <el-button
+              type="primary"
+              plain
+              @click="openUrl('http://61.243.11.50:8088/GZZHXT/Index.html')"
+          >三类人员登陆系统
+          </el-button>
+        </div>
       </div>
     </div>
     <el-row :gutter="10" class="mb8">
@@ -68,6 +71,15 @@
         <el-form-item label="沟通内容">
           <el-input type="textarea" v-model="form.content" placeholder="请输入沟通内容"/>
         </el-form-item>
+        <el-form-item label="到期时间" prop="endTime">
+          <el-date-picker clearable
+                          prefix-icon="CircleClose1"
+                          v-model="form.endTime"
+                          type="date"
+                          value-format="YYYY-MM-DD"
+                          placeholder="请选择到期时间">
+          </el-date-picker>
+        </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -94,11 +106,11 @@ const props = defineProps({
   user: {
     type: Object,
   },
-  list:{
-    type:Array
+  list: {
+    type: Array
   },
-  customerConnectTotal:{
-    type:Number
+  customerConnectTotal: {
+    type: Number
   }
 });
 
@@ -152,7 +164,8 @@ function reset() {
     userName: null,
     customerId: null,
     content: null,
-    createTime: null
+    createTime: null,
+    endTime:null
   };
   proxy.resetForm("customerConnectRef");
 }
@@ -200,6 +213,7 @@ function submitForm() {
     if (valid) {
       form.value.customerId = props.user.customerId
       form.value.customerName = props.user.customerName
+      form.value.bookId = props.user.bookId
       if (form.value.customerConnectId != null) {
         updateCustomerConnect(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功");
@@ -236,7 +250,7 @@ function handleExport() {
   }, `customerConnect_${new Date().getTime()}.xlsx`)
 }
 
-function openUrl(url){
+function openUrl(url) {
   window.open(url)
 }
 
